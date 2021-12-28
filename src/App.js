@@ -1,5 +1,8 @@
 import {useState,useEffect} from 'react'
+import { BrowserRouter as Router,Route,Routes} from 'react-router-dom'
 import Header from  './components/Header'
+import Footer from  './components/Footer'
+import About from  './components/About'
 import Tasks from './components/Tasks'
 import AddTask from './components/AddTask'
 function App() {
@@ -70,11 +73,21 @@ function App() {
   }
 
   return (
+    <Router>
     <div className="container">
       <Header title = 'my-todo-list' addclosestatus = {addclosestatus} onToggleAddClose = {()=>setAddCloseStatus(!addclosestatus)}/>
-      {addclosestatus && <AddTask onAddTask = {addTask}/>}
-      {tasks.length > 0 ? (<Tasks tasks = {tasks} onDeleteTask = {deleteTask} onToggleReminder = {toggleReminder}/>) : ('No Tasks to show')}
-    </div>
+      <Routes>
+        <Route path = '/' exact element = {
+          <>
+            {addclosestatus && <AddTask onAddTask = {addTask}/>}
+            {tasks.length > 0 ? (<Tasks tasks = {tasks} onDeleteTask = {deleteTask} onToggleReminder = {toggleReminder}/>) : ('No Tasks to show')}
+          </>
+        }/>
+        <Route path = '/about' element = {<About/>}/>
+      </Routes>
+      <Footer/>
+     </div>
+     </Router>
   );
 }
 
